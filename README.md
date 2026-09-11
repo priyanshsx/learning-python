@@ -1,3 +1,5 @@
 # Sharpening Python Skills
 
-A simple password generator to sharpen my Python skills. 
+This contains a list of projects that I've built all to sharpen my Python skills. 
+
+1. A simple password generator: pwd_generator.py. 

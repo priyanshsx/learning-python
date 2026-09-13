@@ -1,46 +1,44 @@
 import yfinance as yf
 
+
+# list of available assets you can download historical data for from yfinance
+available_assets = ['BTC-USD', 'ETH-USD', 'SOL-USD', 'HYPE-USD', 'USDT-USD', 'BNB-USD', 'XRP-USD',
+    'ZEC-USD', 'WETH-USD', 'TRX-USD', 'NEAR-USD', 'LSK-USD']
+
 def fetch_asset(ticker, start_date, end_date):
 
+    # downloads the raw data 
     asset = yf.download(ticker, start=start_date, end=end_date)
-    asset.columns = asset.columns.droplevel(1).str.lower()
-    asset.index.name = 'date'
-    asset.columns.name = None 
-    asset.to_csv()
 
-    print(asset.info()) 
+    # handles if yf.download did not work/failed 
+    if asset.empty:
+        print(f"Looks like an error from Yahoo Finance in downloading the data. Please try again.")
+        return None
+    else:
+        # formats the columns into a standard from the raw downloaded data   
+        asset.columns = asset.columns.droplevel(1).str.lower()
+        asset.index.name = 'date'
+        asset.columns.name = None 
+        asset.to_csv()
+        print(asset.info())
+        print("\n")
+        print("The top 5 rows from the downloaded dataframe: ")
+        print(asset.head(5))
+    return asset 
 
-user_ticker = input("Please enter the asset you want to search for(format: TICKER-USD eg: BTC-USD): ")
-user_start = input("Please enter beginning date: ")
-user_end = input("Please enter end date: ")
+print(f"Available assets to download: {available_assets}")
+print("\n")
+
+while True:
+    user_ticker = input("Enter asset in the given format (TICKER-USD eg: BTC-USD): ")
+
+    # check for correct ticker 
+    if user_ticker in available_assets:
+        break 
+    else:
+        print("Please only select from the given list. If you've already selected the correct asset, ensure it follows the format: BTC-USD.")
+
+user_start = input("Please enter beginning date (format: YYYY-MM-DD): ")
+user_end = input("Please enter end date (format: YYYY-MM-DD): ")
 
 fetch_asset(user_ticker, user_start, user_end)
-
-
-
-# extracting data from yfinance by utilizing the given conditions 
-
-
-# 
-# use the below only if you want to save the file as a csv in your folder 
-# btc.to_csv('/path/[asset_name].csv')
-
-# use the below to figure out how the raw extracted csv file actually looks 
-# print(btc.info())
-# print("\n")
-# print(btc.head(5))
-# print(btc.index)
-# print(btc.columns)
-
-# using the above, we find that there are 6 columns in total titled: 
-# Price, Close, High, Low, Open, Volume 
-# further: the top 2 rows are non-functional as they just have BTC-USD values repeated all over 
-# with the exception of the price column which is actually not price but the date 
-# however it is already the datetimeindex 
-
-# formatting the index to drop the ticker level & lowercasing all the column names 
-
-# btc.columns = btc.columns.droplevel(1).str.lower()
-# btc.index.name = 'date'
-# btc.columns.name = None
-

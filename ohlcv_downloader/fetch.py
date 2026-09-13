@@ -1,8 +1,26 @@
 import yfinance as yf
 
+def fetch_asset(ticker, start_date, end_date):
+
+    asset = yf.download(ticker, start=start_date, end=end_date)
+    asset.columns = asset.columns.droplevel(1).str.lower()
+    asset.index.name = 'date'
+    asset.columns.name = None 
+    asset.to_csv()
+
+    print(asset.info()) 
+
+user_ticker = input("Please enter the asset you want to search for(format: TICKER-USD eg: BTC-USD): ")
+user_start = input("Please enter beginning date: ")
+user_end = input("Please enter end date: ")
+
+fetch_asset(user_ticker, user_start, user_end)
+
+
+
 # extracting data from yfinance by utilizing the given conditions 
 
-btc = yf.download('BTC-USD', start='2025-01-01', end='2026-01-01')
+
 # 
 # use the below only if you want to save the file as a csv in your folder 
 # btc.to_csv('/path/[asset_name].csv')
@@ -22,7 +40,7 @@ btc = yf.download('BTC-USD', start='2025-01-01', end='2026-01-01')
 
 # formatting the index to drop the ticker level & lowercasing all the column names 
 
-btc.columns = btc.columns.droplevel(1).str.lower()
-btc.index.name = 'date'
-btc.columns.name = None
+# btc.columns = btc.columns.droplevel(1).str.lower()
+# btc.index.name = 'date'
+# btc.columns.name = None
 

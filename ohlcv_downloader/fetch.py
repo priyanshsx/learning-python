@@ -41,4 +41,20 @@ while True:
 user_start = input("Please enter beginning date (format: YYYY-MM-DD): ")
 user_end = input("Please enter end date (format: YYYY-MM-DD): ")
 
-fetch_asset(user_ticker, user_start, user_end)
+downloaded_data = fetch_asset(user_ticker, user_start, user_end)
+
+# saving to csv 
+
+if downloaded_data is not None:
+    userchoice = input("Would you like to download the csv?(y/n) ").strip().lower()
+
+    if userchoice == 'y':
+        print(f"The file will be saved as {user_ticker}_data.csv. You can edit the name later.")
+
+        filename = f'{user_ticker}_data.csv'
+        downloaded_data.to_csv(filename)
+        print(f"File successfully saved!")
+
+    else:
+        print("File kept in memory. Exiting program.")
+

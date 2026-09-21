@@ -3,7 +3,7 @@ import yfinance as yf
 
 # list of available assets you can download historical data for from yfinance
 available_assets = ['BTC-USD', 'ETH-USD', 'SOL-USD', 'HYPE-USD', 'USDT-USD', 'BNB-USD', 'XRP-USD',
-    'ZEC-USD', 'WETH-USD', 'TRX-USD', 'NEAR-USD', 'LSK-USD']
+    'ZEC-USD', 'WETH-USD', 'TRX-USD', 'NEAR-USD', 'LSK-USD', '^VIX', '^GSPC']
 
 def fetch_asset(ticker, start_date, end_date):
 
